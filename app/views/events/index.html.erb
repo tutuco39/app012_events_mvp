@@ -1,16 +1,28 @@
-<p style="color: green"><%= notice %></p>
+<h1 class="sr-only">イベント一覧</h1>
 
-<% content_for :title, "Events" %>
+<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+  <% (@events || Event.upcoming).each do |event| %>
+    <article class="card">
+      <h2 class="card-title"><%= event.title %></h2>
 
-<h1>Events</h1>
+      <div class="meta">
+        <span class="item">🗓️ <%= l(event.starts_at, format: :short) rescue event.starts_at %></span>
+        <% if event.location.present? %>
+          <span class="item">📍 <%= event.location %></span>
+        <% end %>
+        <% if event.capacity.present? %>
+          <span class="item badge">残席 <%= event.seats_left %></span>
+        <% end %>
+      </div>
 
-<div id="events">
-  <% @events.each do |event| %>
-    <%= render event %>
-    <p>
-      <%= link_to "Show this event", event %>
-    </p>
+      <p style="margin-top:10px;color:#374151;"><%= truncate(event.description.to_s, length: 80) %></p>
+
+      <div class="card-actions" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+        <%= link_to "詳細", event, class: "btn btn-primary" %>
+        <%= link_to "編集", edit_event_path(event), class: "btn btn-ghost" %>
+        <%= button_to "削除", event, method: :delete,
+              data: { turbo_confirm: "削除しますか？" }, class: "btn btn-ghost" %>
+      </div>
+    </article>
   <% end %>
 </div>
-
-<%= link_to "New event", new_event_path %>

@@ -1,0 +1,75 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ /* app/assets/stylesheets/application.scss */
+:root{
+  --bg:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --orange:#ff7a00;
+  --orange-600:#ff6a00;
+  --orange-700:#e85a00;
+  --card:#ffffff;
+  --border:#f0f0f0;
+  --shadow:0 4px 16px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;
+  background:var(--bg);color:var(--text)}
+a{color:var(--orange-700);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.container{max-width:960px;margin:0 auto;padding:16px}
+.topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10}
+.topbar .container{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}
+.brand{font-weight:800;letter-spacing:.3px;color:var(--orange-700)}
+
+.grid{display:grid;gap:16px}
+.grid-cols-2{grid-template-columns:1fr}
+@media (min-width:900px){.grid-cols-2{grid-template-columns:2fr 1fr}}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  box-shadow:var(--shadow);padding:20px}
+.card + .card{margin-top:16px}
+.card-title{font-size:20px;font-weight:700;margin:0 0 6px}
+
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0;color:var(--muted)}
+.meta .item{display:flex;align-items:center;gap:6px}
+
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff4e8;
+  color:var(--orange-700);border:1px solid #ffd0a8;font-size:12px;font-weight:600}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+input[type="text"],input[type="datetime-local"],input[type="number"],textarea{
+  border:1px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:14px;outline:none}
+input:focus,textarea:focus{border-color:var(--orange-600);
+  box-shadow:0 0 0 3px rgba(255,122,0,.15)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;
+  padding:10px 14px;border:1px solid transparent;background:#fff;color:var(--orange-700);
+  border-color:var(--orange-700);font-weight:600;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--orange-700);color:#fff}
+.btn-primary{background:var(--orange);color:#fff;border-color:var(--orange-600)}
+.btn-primary:hover{background:var(--orange-700)}
+.btn-ghost{border-color:#eee;color:#374151}
+.btn-block{width:100%;justify-content:center}
+
+.flash{margin:12px 0;padding:12px 14px;border-radius:12px}
+.flash.notice{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.flash.alert{background:#fff7ed;border:1px solid #ffedd5;color:#9a3412}
