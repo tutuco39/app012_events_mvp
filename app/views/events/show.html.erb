@@ -19,7 +19,6 @@
 
     <div class="card-actions">
       <%= link_to "編集", edit_event_path(@event), class: "btn" %>
-      <%= link_to "一覧へ戻る", events_path, class: "btn btn-ghost" %>
       <%= button_to "削除", @event, method: :delete,
             data: { turbo_confirm: "削除しますか？" }, class: "btn btn-ghost" %>
     </div>
@@ -55,4 +54,9 @@
       </ul>
     </section>
   </aside>
+  <div>
+    <%= link_to "Back to events", events_path %>
+  </div>
+
 </div>
+
