@@ -1,10 +1,58 @@
-<p style="color: green"><%= notice %></p>
+<div class="grid grid-cols-2">
+  <section class="card">
+    <h1 class="card-title"><%= @event.title %></h1>
 
-<%= render @event %>
+    <div class="meta">
+      <span class="item">🗓️ <%= l(@event.starts_at, format: :long) rescue @event.starts_at %></span>
+      <% if @event.ends_at.present? %>
+        <span class="item">⏱️ <%= l(@event.ends_at, format: :long) rescue @event.ends_at %></span>
+      <% end %>
+      <% if @event.location.present? %>
+        <span class="item">📍 <%= @event.location %></span>
+      <% end %>
+      <% if @event.capacity.present? %>
+        <span class="item badge">定員 <%= @event.capacity %> / 残席 <%= @event.seats_left %></span>
+      <% end %>
+    </div>
 
-<div>
-  <%= link_to "Edit this event", edit_event_path(@event) %> |
-  <%= link_to "Back to events", events_path %>
+    <p style="margin-top:12px;"><%= simple_format(@event.description) %></p>
 
-  <%= button_to "Destroy this event", @event, method: :delete %>
+    <div class="card-actions">
+      <%= link_to "編集", edit_event_path(@event), class: "btn" %>
+      <%= link_to "一覧へ戻る", events_path, class: "btn btn-ghost" %>
+      <%= button_to "削除", @event, method: :delete,
+            data: { turbo_confirm: "削除しますか？" }, class: "btn btn-ghost" %>
+    </div>
+  </section>
+
+  <aside class="grid" style="gap:16px;">
+    <section class="card">
+      <h2 class="card-title">参加する</h2>
+      <% full = @event.capacity.present? && @event.seats_left <= 0 %>
+      <% if full %><p class="badge">満席</p><% end %>
+
+      <%= form_with(model: [@event, Attendance.new], local: true) do |f| %>
+        <div class="field">
+          <%= f.label :name, "お名前" %>
+          <%= f.text_field :name, required: true, disabled: full %>
+        </div>
+        <%= f.submit(full ? "満席です" : "参加する",
+              class: "btn btn-primary btn-block", disabled: full) %>
+      <% end %>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">参加者 (<%= @event.attendances.count %>)</h2>
+      <ul style="margin:0;padding-left:18px;">
+        <% @event.attendances.each do |a| %>
+          <li style="margin:6px 0;">
+            <%= a.name %>
+            <%= button_to "取消", event_attendance_path(@event, a), method: :delete,
+                  form: { data: { turbo_confirm: "取り消しますか？" } },
+                  class: "btn btn-ghost", style:"margin-left:8px;padding:4px 8px" %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  </aside>
 </div>

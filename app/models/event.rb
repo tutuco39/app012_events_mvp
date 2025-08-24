@@ -11,6 +11,12 @@ class Event < ApplicationRecord
     capacity - attendances.count
   end
 
+  def seats_left
+    return nil unless capacity.present?
+    [capacity - attendances.count, 0].max
+  end
+
+
   private
 
   def ends_after_start
